@@ -55,6 +55,14 @@ def add_image():
 
     return redirect('/')
 
+@app.route('/search')
+def search():
+    # search_term = request.form.get('search_term')
+    search_term = "sword"
+    images = Images.query.filter(
+            Images.image_desc.ilike('%' + search_term + '%')
+        ).all()
+    return jsonify([image.to_dict() for image in images])
 
 # @app.route('/<name>')
 # def hello_name(name):
