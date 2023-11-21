@@ -66,8 +66,12 @@ def search_image():
 
 @app.route('/delete_image/<user_id>')
 def delete_image(user_id):
-    Images.query.filter(Images.user_id == user_id).delete()
-    db.session.commit()
+    image = Images.query.filter(Images.user_id == user_id).first()
+    # deleted_item = request.form.get('confirm-label')
+    deleted_label = "a concrete structure with a hole in the middle"
+    if image.image_desc == deleted_label:
+        db.session.delete(image)
+        db.session.commit()
 
     return redirect('/')
 
