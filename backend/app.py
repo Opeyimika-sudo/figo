@@ -55,14 +55,22 @@ def add_image():
 
     return redirect('/')
 
-@app.route('/search')
-def search():
+@app.route('/search_image')
+def search_image():
     # search_term = request.form.get('search_term')
     search_term = "sword"
     images = Images.query.filter(
             Images.image_desc.ilike('%' + search_term + '%')
         ).all()
     return jsonify([image.to_dict() for image in images])
+
+@app.route('/delete_image/<user_id>')
+def delete_image(user_id):
+    Images.query.filter(Images.user_id == user_id).delete()
+    db.session.commit()
+
+    return redirect('/')
+
 
 # @app.route('/<name>')
 # def hello_name(name):
