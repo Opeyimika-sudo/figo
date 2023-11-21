@@ -1,4 +1,4 @@
-from flask import Flask, jsonify
+from flask import Flask, jsonify, request, redirect, render_template
 from flask_sqlalchemy import SQLAlchemy
 import psycopg2
 import os
@@ -40,9 +40,25 @@ def populate():
 
    return 'Database populated successfully'
 
-@app.route('/<name>')
-def hello_name(name):
-    return "Hello {}!".format(name)
+@app.route('/add_image')
+def add_image():
+    # new_image = request.form.get('new_image')
+    response = requests.get("https://api.unsplash.com/photos/random?client_id=ib1ASB7wMZjI17iwEYu1gb2Udzg4bWhlAEG9a4rlLGw")
+    data = response.json()
+    print(data)
+    new_image_url = data["urls"]["regular"]
+    new_image_desc = data["alt_description"]
+
+    new_Image = Images(image_url= new_image_url, image_desc=new_image_desc)
+    db.session.add(new_Image)
+    db.session.commit()
+
+    return redirect('/')
+
+
+# @app.route('/<name>')
+# def hello_name(name):
+#     return "Hello {}!".format(name)
 
 
 if __name__ == '__main__':
