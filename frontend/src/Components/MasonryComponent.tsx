@@ -8,9 +8,8 @@ type masonryProps = {
 
 const MasonryComponent: React.FC<masonryProps> = ({children}) => {
         let columns: Column;
-        // let columnCount: number;
 
-        const [columnCount, setColumnCount] = React.useState(3)
+        const [columnCount, setColumnCount] = React.useState(() => window.innerWidth <700 ? (window.innerWidth < 350 ? 1 : 2) : 3)
 
         React.useEffect(()=> {
             window.addEventListener('resize', checkWidth)
@@ -21,11 +20,10 @@ const MasonryComponent: React.FC<masonryProps> = ({children}) => {
         }, [])
 
         function checkWidth() {
-          let width = window.innerWidth;
+        let width = window.innerWidth;
 
-          if(width < 350) {
-            setColumnCount(1)
-             
+        if(width < 350) {
+            setColumnCount(1) 
         }
         else if(width < 700) {
             setColumnCount(2) 
