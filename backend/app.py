@@ -9,12 +9,14 @@ from sqlalchemy.engine import URL
 # to access environmental variables
 from dotenv import load_dotenv
 from flask_migrate import Migrate
+from flask_cors import CORS
 
 load_dotenv()
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('DATABASE_URL')
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+CORS(app)
 db = SQLAlchemy(app)
 migrate= Migrate(app, db)
 
