@@ -6,10 +6,10 @@ import Main from './Components/Main'
 function App() {
 
   return (
-    <>
+    <div className="mx-3 lg:mx-10 my-3">
       <Header/>
       <Main/>
-    </>
+    </div>
   )
 }
 

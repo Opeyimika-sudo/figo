@@ -8,6 +8,12 @@
   font: inherit;
 }
 
+body {
+  font-family: 'Montserrat', sans-serif;
+  font-family: 'Noto Sans', sans-serif;
+}
+  
+
 img, picture, svg, video {
   display: block;
   max-width: 100%;
