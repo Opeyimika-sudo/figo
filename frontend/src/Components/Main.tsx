@@ -1,5 +1,7 @@
 import React from 'react'
 import axios from 'axios'
+// import Masonry from 'react-masonry-component'
+import MasonryComponent from './MasonryComponent'
 
 interface Image {
     id: number,
@@ -7,7 +9,7 @@ interface Image {
     image_desc: string,
     created_on: string
 }
-
+  
 const Main = () => {
     const [images, setImages] = React.useState<Image[]>([])
 
@@ -18,10 +20,18 @@ const Main = () => {
     console.log(images);
 
     const imageWall = images.map(item => (
-        <img src={item.image_url} alt={item.image_desc}/>
+        <div className=''>
+            <img key={item.id} src={item.image_url} alt={item.image_desc} className='object-contain'/>
+        </div>
     ))
+
+
   return (
-    <div>{imageWall}</div>
+    <div className='mt-5'>
+        <MasonryComponent>
+            {imageWall}
+        </MasonryComponent>
+    </div>
   )
 }
 
