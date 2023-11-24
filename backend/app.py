@@ -9,14 +9,14 @@ from sqlalchemy.engine import URL
 # to access environmental variables
 from dotenv import load_dotenv
 from flask_migrate import Migrate
-from flask_cors import CORS
+from flask_cors import CORS, cross_origin
 
 load_dotenv()
 
 app = Flask(__name__)
+CORS(app)
 app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('DATABASE_URL')
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-CORS(app)
 db = SQLAlchemy(app)
 migrate= Migrate(app, db)
 
@@ -42,7 +42,7 @@ def populate():
 
    return 'Database populated successfully'
 
-@app.route('/add_image')
+@app.route('/add_image', methods=['POST'])
 def add_image():
     # new_image = request.form.get('new_image')
     response = requests.get("https://api.unsplash.com/photos/random?client_id=ib1ASB7wMZjI17iwEYu1gb2Udzg4bWhlAEG9a4rlLGw")
@@ -57,7 +57,7 @@ def add_image():
 
     return redirect('/')
 
-@app.route('/search_image')
+@app.route('/search_image', methods=['POST'])
 def search_image():
     # search_term = request.form.get('search_term')
     search_term = "sword"
@@ -66,16 +66,20 @@ def search_image():
         ).all()
     return jsonify([image.to_dict() for image in images])
 
-@app.route('/delete_image/<user_id>')
+@app.route('/delete_image/<int:user_id>/', methods=['POST', 'DELETE', 'OPTIONS'])
 def delete_image(user_id):
+    # print('love you')
+    data = request.get_json()
+    print('got here')
+    image_input = data
+    print('we were here')
     image = Images.query.filter(Images.user_id == user_id).first()
-    # deleted_item = request.form.get('confirm-label')
-    deleted_label = "a concrete structure with a hole in the middle"
-    if image.image_desc == deleted_label:
+    if image.image_desc == image_input:
         db.session.delete(image)
         db.session.commit()
 
-    return redirect('/')
+    # return redirect('/')
+    return ''
 
 
 # @app.route('/<name>')
