@@ -33,10 +33,22 @@ interface stateProps {
 const Main: React.FC<stateProps> = ({modal, setModal}) => {
     const [images, setImages] = React.useState<Image[]>([])
     const [inputValue, setInputValue] = React.useState('');
+    // const [imagesEmpty, setImagesEmpty] = React.useState(false)
+    
+    // const [open, setOpen] = React.useState(false);
 
-    React.useEffect(() => {
-        axios.get('http://127.0.0.1:5000/').then(response => setImages(response.data)).catch(error => console.log(error))
-    }, [])
+   
+        React.useEffect(() => {
+                axios.get('http://127.0.0.1:5000/')
+                    .then((response) => {
+                        if(response.data.length == 0){
+                            axios.get('http://127.0.0.1:5000/populate').then(response => setImages(response.data)).catch(error => console.log(error))
+                        }  
+                        setImages(response.data)
+                    })
+                    .catch(error => console.log(error))
+            
+        }, [])
 
     
 
@@ -46,25 +58,27 @@ const Main: React.FC<stateProps> = ({modal, setModal}) => {
 
     const handleSubmit = async (event, id: number) => {
             event.preventDefault()
-            await axios.post(`http://127.0.0.1:5000/delete_image/${id}/`, {
+            
+            await axios.delete(`http://127.0.0.1:5000/delete_image/${id}/`, {
                 headers: { 
                     'Content-Type': 'application/json' 
                 },
                 data: inputValue
             })
                   .then((response) => {
-                    console.log("we got here")
-                    console.log(response.status, response.data);
-                    setImages(images.filter(image => image.id !== id))
+                    setImages(response.data)
                   })
                   .catch((error) => {
                     console.log(error.response.data);
                   });
+                // setOpen(false)
     }
 
+    
     const imageWall = images.map(item => (
         <div className='relative'>
             <img key={item.id} src={item.image_url} alt={item.image_desc} className='object-contain rounded-2xl cursorChange'/>
+            {/* <Dialog open={open} onOpenChange={setOpen}> */}
             <Dialog>
                 <DialogTrigger asChild>
                     <Button className='absolute right-2 top-2 border-red-500 border-2 text-red-500 bg-inherit px-2 py-0.5 rounded-2xl button'>delete</Button>
@@ -90,18 +104,19 @@ const Main: React.FC<stateProps> = ({modal, setModal}) => {
                         />
                     </div>
                     </div>
-                    {/* <Button type="button" variant="secondary">
-                    Cancel
-                    </Button> */}
+                   
                     <DialogFooter className="sm:justify-start">
                         <DialogClose asChild>
+                        {/* <Button type="button" variant="secondary">
+                        Cancel
+                        </Button> */}
                             <Button onClick={(e) => handleSubmit(e, item.id)} type="submit" size="sm" className="text-white px-3 bg-red-500">
                                 Delete
                             </Button>   
                         </DialogClose>
                     </DialogFooter>
                 </DialogContent>
-                </Dialog>
+            </Dialog>
             <p className='absolute bottom-1 text-white left-1 pl-1 paragraph'>{item.image_desc.charAt(0).toUpperCase().concat(item.image_desc.slice(1))}</p>
 
         </div>
