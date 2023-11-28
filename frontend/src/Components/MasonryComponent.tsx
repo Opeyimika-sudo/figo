@@ -45,10 +45,10 @@ const MasonryComponent: React.FC<masonryProps> = ({children}) => {
   
   
   return (
-    <div className='flex flex-row justify-content-center width-100 box-sizing-border-box align-content-stretch  gap-x-4'>
+    <div className='flex flex-row justify-content-center width-100 box-sizing-border-box align-content-stretch  gap-x-4 relative'>
       {
       columns.map((column, i) => (
-        <div key={i} className='flex flex-col justify-content-flex-start align-content-stretch flex-grow width-0 gap-y-3'>
+        <div key={i} className='flex flex-col justify-content-flex-start align-content-stretch flex-grow width-0 gap-y-3 relative'>
           {column.map(item => item)}
         </div>
       ))}
