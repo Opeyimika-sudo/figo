@@ -52,19 +52,24 @@ def populate():
     images = Images.query.all()
     return jsonify([image.to_dict() for image in images])
 
-@app.route('/add_image', methods=['POST'])
+@app.route('/add_image/', methods=['POST'])
+@cross_origin()
 def add_image():
     # new_image = request.form.get('new_image')
-    response = requests.get("https://api.unsplash.com/photos/random?client_id=ib1ASB7wMZjI17iwEYu1gb2Udzg4bWhlAEG9a4rlLGw")
-    data = response.json()
-    new_image_url = data["urls"]["regular"]
-    new_image_desc = data["alt_description"]
+    # response = requests.get("https://api.unsplash.com/photos/random?client_id=ib1ASB7wMZjI17iwEYu1gb2Udzg4bWhlAEG9a4rlLGw")
+    # new_image_url = data["urls"]["regular"]
+    # new_image_desc = data["alt_description"]
+    data = request.get_json()
+    print(data)
+    new_image_url = data["data"]["image_url"]
+    new_image_desc = data["data"]["image_desc"]
 
     new_Image = Images(image_url= new_image_url, image_desc=new_image_desc)
     db.session.add(new_Image)
     db.session.commit()
 
-    return redirect('/')
+    images = Images.query.all()
+    return jsonify([image.to_dict() for image in images]) 
 
 @app.route('/search_image', methods=['POST'])
 def search_image():
@@ -78,11 +83,8 @@ def search_image():
 @app.route('/delete_image/<int:user_id>/', methods=['POST', 'DELETE', 'OPTIONS'])
 @cross_origin()
 def delete_image(user_id):
-    print('love you')
     data = request.get_json()
-    print('got here')
     image_input = data
-    print('we were here')
     image = Images.query.filter(Images.user_id == user_id).first()
     if image.image_desc == image_input:
         db.session.delete(image)
