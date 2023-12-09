@@ -97,15 +97,15 @@ const Main = () => {
 
 
   return (
-    <div className='mt-5 relative'>
+    <div className='mt-5'>
+            {modal && createPortal(<Modal 
+            handleChange={handleChange}
+            handleSubmit={handleSubmit}
+            clickedItem={clickedItem}
+            />, document.body) }
         <MasonryComponent>
             {imageWall}
         </MasonryComponent>
-        {modal && createPortal(<Modal 
-        handleChange={handleChange}
-        handleSubmit={handleSubmit}
-        clickedItem={clickedItem}
-        />, document.body) }
     </div>
   )
 }

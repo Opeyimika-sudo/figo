@@ -90,7 +90,6 @@ def delete_image(user_id):
 
     images = Images.query.all()
     return jsonify([image.to_dict() for image in images])
-    # return ''
 
 
 # @app.route('/<name>')

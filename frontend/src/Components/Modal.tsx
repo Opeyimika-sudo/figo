@@ -3,7 +3,8 @@ import React from 'react'
 const Modal = ({clickedItem, handleChange, handleSubmit}) => {
 
   return (
-    <div className='sm:max-w-md bg-red-500 absolute'>
+    // <div className='sm:max-w-md bg-red-500'>
+    <div className='absolute m-50'>
                         <h2>Are you sure?</h2>
                         <p>
                         Type the image's description - <span className='font-bold'>{clickedItem[0].image_desc}</span> in the box to delete the image
