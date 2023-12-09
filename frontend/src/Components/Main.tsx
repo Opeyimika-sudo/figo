@@ -1,31 +1,10 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { createPortal } from 'react-dom'
 import axios from 'axios'
-// import Masonry from 'react-masonry-component'
 import MasonryComponent from './MasonryComponent'
 import { Button } from './ui/button'
 import Modal from './DeleteModal'
-// import {
-//     Dialog,
-//     DialogContent,
-//     DialogDescription,
-//     DialogHeader,
-//     DialogTitle,
-//     DialogTrigger,
-//     DialogClose,
-//     DialogFooter,
-//     DialogOverlay,
-//     DialogPortal
-//   } from "./ui/dialog"
-//   import { Input } from './ui/input'
-//   import { Label } from "./ui/label"
-
-interface Image {
-    id: number,
-    image_url: string,
-    image_desc: string,
-    created_on: string
-}
+import { ImageContext } from './ImageContextProvider'
 
 interface ClickedItem {
     id: number,
@@ -40,7 +19,7 @@ interface ClickedItem {
 // }
   
 const Main = () => {
-    const [images, setImages] = React.useState<Image[]>([])
+    const {images, setImages} = React.useContext(ImageContext);
     const [inputValue, setInputValue] = React.useState('');
     const [deleteModal, setDeleteModal] = React.useState<boolean>(false)
     const [clickedItem, setClickedItem] = React.useState<ClickedItem[]>([])
