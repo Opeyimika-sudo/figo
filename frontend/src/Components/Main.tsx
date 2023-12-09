@@ -102,6 +102,7 @@ const Main = () => {
             handleChange={handleChange}
             handleSubmit={handleSubmit}
             clickedItem={clickedItem}
+            setModal={setModal}
             />, document.body) }
         <MasonryComponent>
             {imageWall}
