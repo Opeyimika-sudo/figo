@@ -71,10 +71,13 @@ def add_image():
     images = Images.query.all()
     return jsonify([image.to_dict() for image in images]) 
 
-@app.route('/search_image', methods=['POST'])
+@app.route('/search_image/', methods=['POST'])
+@cross_origin()
 def search_image():
     # search_term = request.form.get('search_term')
-    search_term = "sword"
+    data = request.get_json()
+    print(data)
+    search_term = data["data"]
     images = Images.query.filter(
             Images.image_desc.ilike('%' + search_term + '%')
         ).all()
