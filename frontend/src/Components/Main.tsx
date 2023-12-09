@@ -4,7 +4,7 @@ import axios from 'axios'
 // import Masonry from 'react-masonry-component'
 import MasonryComponent from './MasonryComponent'
 import { Button } from './ui/button'
-import Modal from './Modal'
+import Modal from './DeleteModal'
 // import {
 //     Dialog,
 //     DialogContent,
@@ -42,7 +42,7 @@ interface ClickedItem {
 const Main = () => {
     const [images, setImages] = React.useState<Image[]>([])
     const [inputValue, setInputValue] = React.useState('');
-    const [modal, setModal] = React.useState<boolean>(false)
+    const [deleteModal, setDeleteModal] = React.useState<boolean>(false)
     const [clickedItem, setClickedItem] = React.useState<ClickedItem[]>([])
    
         React.useEffect(() => {
@@ -78,13 +78,12 @@ const Main = () => {
                   .catch((error) => {
                     console.log(error.response.data);
                   });
-                  setModal(false)
+                  setDeleteModal(false)
     }
 
     const handleDelete = (item) => {
-        setModal(true)
+        setDeleteModal(true)
         setClickedItem([item])
-        console.log(item)
     }
     
     const imageWall = images.map(item => (
@@ -98,11 +97,11 @@ const Main = () => {
 
   return (
     <div className='mt-5'>
-            {modal && createPortal(<Modal 
+            {deleteModal && createPortal(<Modal 
             handleChange={handleChange}
             handleSubmit={handleSubmit}
             clickedItem={clickedItem}
-            setModal={setModal}
+            setModal={setDeleteModal}
             />, document.body) }
         <MasonryComponent>
             {imageWall}
