@@ -24,7 +24,6 @@ migrate= Migrate(app, db)
 def after_request(response):
     response.headers.add('Access-Control-Allow-Headers', 
                          'Content-Type')
-    # response.headers.add('Access-Control-Allow-Origin', 'http://localhost:5173/')
     response.headers.add('Access-Control-Allow-Methods', 'GET, POST, PATCH, DELETE, OPTIONS')
     return response
 
@@ -55,9 +54,6 @@ def populate():
 @app.route('/add_image/', methods=['POST'])
 @cross_origin()
 def add_image():
-    # response = requests.get("https://api.unsplash.com/photos/random?client_id=ib1ASB7wMZjI17iwEYu1gb2Udzg4bWhlAEG9a4rlLGw")
-    # new_image_url = data["urls"]["regular"]
-    # new_image_desc = data["alt_description"]
     data = request.get_json()
     if data["data"] == "random": 
         response = requests.get("https://api.unsplash.com/photos/random?client_id=ib1ASB7wMZjI17iwEYu1gb2Udzg4bWhlAEG9a4rlLGw")

@@ -36,15 +36,15 @@ const Header = () => {
 
 
   return (
-    <div className='flex gap-x-2 lg:gap-x-6'>
+    <div className='flex gap-x-2 lg:gap-x-6 justify-between'>
         <Logo/>
-        <div className='relative w:3/5 lg:w-4/5 flex items-center'>
+        <div className='relative w:3/5 sm:w-4/5 flex items-center'>
             <span className="material-symbols-outlined absolute left-1 lg:left-2 text-xs lg:text-lg">
                 search
             </span>
-            <Input type="text" placeholder="Search by name" className='font-noto text-xs w:3/5 lg:w-2/4 pl-4 lg:pl-10' onChange={(e) => handleChange(e)}/>
+            <Input type="text" placeholder="Search by name" className='font-noto text-xs w:3/5 lg:w:4/5 pl-4' onChange={(e) => handleChange(e)}/>
         </div>
-        <Button className='bg-teal-600 rounded-lg' onClick={addPhoto}>Add a photo</Button>
+        <Button className='bg-teal-600 rounded-lg sm:py-1 lg:py-3 text-xs md:text-base ' onClick={addPhoto}>Add a photo</Button>
         {addModal && createPortal(<AddModal setModal={setAddModal}/>, document.body)}
     </div>
   )
