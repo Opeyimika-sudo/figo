@@ -1,8 +1,6 @@
 from flask import Flask, jsonify, request, redirect, render_template
 from flask_sqlalchemy import SQLAlchemy
-import psycopg2
 import os
-# import psycopg2.extras as extras
 import requests
 from sqlalchemy import create_engine
 from sqlalchemy.engine import URL
