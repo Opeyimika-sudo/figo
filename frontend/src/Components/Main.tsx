@@ -5,6 +5,7 @@ import MasonryComponent from './MasonryComponent'
 import { Button } from './ui/button'
 import Modal from './DeleteModal'
 import { ImageContext } from './ImageContextProvider'
+import { toast } from 'react-toastify'
 
 interface ClickedItem {
     id: number,
@@ -28,12 +29,19 @@ const Main = () => {
                 axios.get('http://127.0.0.1:5000/')
                     .then((response) => {
                         if(response.data.length == 0){
-                            axios.get('http://127.0.0.1:5000/populate').then(response => setImages(response.data)).catch(error => console.log(error))
+                            axios.get('http://127.0.0.1:5000/populate')
+                            .then(response => 
+                                setImages(response.data)
+                                )
+                            .catch(error => 
+                                toast.error('Error populating database')
+                                )
                         }  
                         setImages(response.data)
                     })
-                    .catch(error => console.log(error))
-            
+                    .catch(error => 
+                        toast.error('Error fetching images')
+                )
         }, [])
 
     
@@ -53,9 +61,11 @@ const Main = () => {
             })
                   .then((response) => {
                     setImages(response.data)
+                    toast.success('Image deleted successfully')
                   })
                   .catch((error) => {
                     console.log(error.response.data);
+                    toast.error('Image description incorrect')
                   });
                   setDeleteModal(false)
     }

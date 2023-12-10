@@ -90,8 +90,12 @@ def delete_image(user_id):
         db.session.delete(image)
         db.session.commit()
 
-    images = Images.query.all()
-    return jsonify([image.to_dict() for image in images])
+        images = Images.query.all()
+        return jsonify([image.to_dict() for image in images])
+    else:
+        return jsonify({"error": "Image description is incorrect."}), 404
+
+    
 
 
 

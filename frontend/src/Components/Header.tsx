@@ -6,7 +6,7 @@ import { createPortal } from 'react-dom'
 import AddModal from './AddModal'
 import axios from 'axios'
 import { ImageContext } from './ImageContextProvider'
-
+import { toast } from 'react-toastify';
 
 const Header = () => {
   const {images, setImages} = React.useContext(ImageContext)
@@ -30,7 +30,8 @@ const Header = () => {
           setImages(response.data)
         })
         .catch((error) => {
-          console.log(error.response.data);
+          console.log(error.response.data)
+          toast.error('Error searching image');
         });
   }
 
